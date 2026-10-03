@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Minecraft Web — Stage 1</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:100%; height:100%; overflow:hidden; background:#87ceeb;
+               font-family:"Courier New", monospace; user-select:none; }
+  #game { display:block; width:100vw; height:100vh; }
+
+  #crosshair {
+    position:fixed; left:50%; top:50%; width:22px; height:22px;
+    transform:translate(-50%,-50%); pointer-events:none; mix-blend-mode:difference;
+  }
+  #crosshair::before, #crosshair::after { content:''; position:absolute; background:#fff; }
+  #crosshair::before { left:50%; top:0; width:2px; height:100%; margin-left:-1px; }
+  #crosshair::after  { top:50%; left:0; height:2px; width:100%; margin-top:-1px; }
+
+  #hud {
+    position:fixed; top:8px; left:8px; color:#fff; font-size:13px;
+    text-shadow:1px 1px 0 #000; line-height:1.5; pointer-events:none; white-space:pre;
+  }
+  #hotbar {
+    position:fixed; bottom:10px; left:50%; transform:translateX(-50%);
+    display:flex; gap:3px; padding:3px; background:rgba(0,0,0,.45);
+    border:2px solid #1a1a1a; border-radius:3px;
+  }
+  .slot {
+    width:54px; height:54px; background:rgba(139,139,139,.35);
+    border:2px solid #4a4a4a; display:flex; align-items:center;
+    justify-content:center; position:relative; cursor:pointer;
+  }
+  .slot.active { border-color:#fff; background:rgba(255,255,255,.22); }
+  .slot img { width:42px; height:42px; image-rendering:pixelated; }
+  .slot .num { position:absolute; top:1px; left:3px; font-size:10px; color:#ddd; text-shadow:1px 1px 0 #000; }
+
+  #overlay {
+    position:fixed; inset:0; background:rgba(0,0,0,.72); z-index:30;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    color:#fff; text-align:center; cursor:pointer;
+  }
+  #overlay.hidden { display:none; }
+  #overlay h1 { font-size:52px; letter-spacing:6px; margin-bottom:6px;
+                text-shadow:4px 4px 0 #3a3a3a; color:#e8e8e8; }
+  #overlay .sub { color:#9be36b; margin-bottom:28px; letter-spacing:2px; }
+  #overlay .btn { border:2px solid #aaa; padding:12px 34px; font-size:18px;
+                  background:rgba(255,255,255,.08); margin-bottom:24px; }
+  #overlay .keys { font-size:13px; line-height:1.9; color:#cfcfcf; }
+  #overlay .keys b { color:#ffd966; }
+
+  #loading {
+    position:fixed; inset:0; background:#111; color:#fff; z-index:40;
+    display:flex; align-items:center; justify-content:center; font-size:18px;
+    flex-direction:column; gap:10px;
+  }
+  #loading.hidden { display:none; }
+  #loading small { color:#888; font-size:12px; }
+</style>
+</head>
+<body>
+
+<canvas id="game"></canvas>
+<div id="crosshair"></div>
+<div id="hud"></div>
+<div id="hotbar"></div>
+
+<div id="loading">
+  <div id="loadingText">Загрузка текстур...</div>
+  <small id="loadingSub">Проверьте консоль (F12), если что-то не загрузилось</small>
+</div>
+
+<div id="overlay" class="hidden">
+  <h1>MINECRAFT</h1>
+  <div class="sub">web edition — stage 1</div>
+  <div class="btn">КЛИКНИТЕ, ЧТОБЫ ИГРАТЬ</div>
+  <div class="keys">
+    <b>WASD</b> — движение &nbsp;·&nbsp; <b>Пробел</b> — прыжок / плыть вверх<br>
+    <b>Shift</b> — крадучись &nbsp;·&nbsp; <b>Ctrl</b> — бег<br>
+    <b>ЛКМ</b> — сломать блок &nbsp;·&nbsp; <b>ПКМ</b> — поставить блок<br>
+    <b>1–9</b> / <b>колесо</b> — выбор блока<br>
+    <b>Esc</b> — пауза
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="js/textures.js"></script>
+<script src="js/world.js"></script>
+<script src="js/player.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
